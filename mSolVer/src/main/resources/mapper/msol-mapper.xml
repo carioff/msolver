@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MSolDao">
+
+	<select id="getSiteList" resultType="java.util.HashMap">
+		SELECT AA.*
+			FROM
+			(
+			select a.site_id siteId
+					, a.site_name siteName
+					,  ( @rank := @rank + 1 ) AS RNK
+			from tb_ms_site a, ( SELECT @rank := 0 ) b
+			<where>
+				<if test="siteId != null and siteId !=''">
+					a.site_id LIKE CONCAT('%',upper(#{siteId}),'%')
+				</if>
+				<if test="siteName != null and siteName !=''">
+					AND a.site_name LIKE CONCAT('%',upper(#{siteName}),'%')
+				</if>
+			</where>
+			) AA
+		WHERE RNK BETWEEN (#{SITEID_CUR_PAGE} - 1) * #{SITEID_PER_PAGE} + 1 
+		AND #{SITEID_CUR_PAGE} * #{SITEID_PER_PAGE}
+		ORDER BY siteId
+	</select>
+	
+	<select id="getSiteForComb" resultType="java.util.HashMap">
+		select site_id siteId
+<!-- 			   , site_name siteName -->
+<!-- 		select CONCAT(site_id,':',site_name) siteId -->
+		from tb_ms_site
+		ORDER BY siteId 
+	</select>
+	
+	<select id="getSiteCnt" resultType="String">
+		SELECT	COUNT(*) AS CNT
+		FROM 	tb_ms_site a
+		<where>
+			<if test="siteId != null and siteId !=''">
+				a.site_id LIKE CONCAT('%',upper(#{siteId}),'%')
+			</if>
+			<if test="siteName != null and siteName !=''">
+				AND a.site_name LIKE CONCAT('%',upper(#{siteName}),'%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="getAddedSiteAvail" resultType="String">
+        SELECT	CASE WHEN 
+        			COUNT(1) = 0 THEN 'Y'
+	           	ELSE 'N' END AS AVAIL_YN
+		FROM 	tb_ms_site
+		WHERE 	site_id = #{siteId}
+	</select>
+	
+	<insert id="insertAddedSite">
+		INSERT INTO tb_ms_site
+		(
+			site_id, 
+			site_name
+		)
+		VALUES
+		(
+			#{siteId},
+			#{siteName}
+		)
+	</insert>
+	
+	<update id="updateSiteName">
+		UPDATE 	tb_ms_site
+		SET	    site_name = #{siteName}	
+		WHERE	site_id = #{siteId}
+	</update>
+	
+	<delete id="deleteSite">
+		DELETE 	FROM tb_ms_site
+		WHERE	site_id = #{siteId}
+	</delete>
+	
+	<select id="getSolVersionList" resultType="java.util.HashMap">
+		SELECT AA.*
+			FROM
+			(
+			select a.sol_version solVersion
+					, a.sol_name solName
+					,  ( @rank := @rank + 1 ) AS RNK
+			from tb_ms_sol_version a, ( SELECT @rank := 0 ) b
+			<where>
+				<if test="solVersion != null and solVersion !=''">
+					a.sol_version LIKE CONCAT('%',upper(#{solVersion}),'%')
+				</if>
+				<if test="solName != null and solName !=''">
+					AND a.sol_name LIKE CONCAT('%',upper(#{solName}),'%')
+				</if>
+			</where>
+			) AA
+		WHERE RNK BETWEEN (#{SOLVERSION_CUR_PAGE} - 1) * #{SOLVERSION_PER_PAGE} + 1 
+		AND #{SOLVERSION_CUR_PAGE} * #{SOLVERSION_PER_PAGE}
+		ORDER BY solVersion
+	</select>
+	
+	<select id="getSolVersionForComb" resultType="java.util.HashMap">
+		select sol_version solVersion
+<!-- 			   ,sol_name solName -->
+		from tb_ms_sol_version 
+		ORDER BY solVersion
+	</select>
+	
+	<select id="getSolVersionCnt" resultType="String">
+		SELECT	COUNT(*) AS CNT
+		FROM 	tb_ms_sol_version a
+		<where>
+			<if test="solVersion != null and solVersion !=''">
+				a.sol_version LIKE CONCAT('%',upper(#{solVersion}),'%')
+			</if>
+			<if test="solName != null and solName !=''">
+				AND a.sol_name LIKE CONCAT('%',upper(#{solName}),'%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="getAddedSolVersionAvail" resultType="String">
+        SELECT	CASE WHEN 
+        			COUNT(1) = 0 THEN 'Y'
+	           	ELSE 'N' END AS AVAIL_YN
+		FROM 	tb_ms_sol_version
+		WHERE 	sol_version = #{solVersion}
+	</select>
+	
+	<insert id="insertAddedSolVersion">
+		INSERT INTO tb_ms_sol_version
+		(
+			sol_version, 
+			sol_name
+		)
+		VALUES
+		(
+			#{solVersion},
+			#{solName}
+		)
+	</insert>
+	
+	<update id="updateSolName">
+		UPDATE 	tb_ms_sol_version
+		SET	    sol_name = #{solName}	
+		WHERE	sol_version = #{solVersion}
+	</update>
+	
+	<delete id="deleteSolVersion">
+		DELETE 	FROM tb_ms_sol_version
+		WHERE	sol_version = #{solVersion}
+	</delete>
+	
+	
+	<select id="getSiteSolVerList" resultType="java.util.HashMap">
+		SELECT AA.*
+			FROM
+			(
+			select a.sol_site_id solSiteId
+					, a.site_id siteId
+					, a.sol_version solVersion
+					, a.apply_date applyDate
+					, a.apply_contents applyContents
+					, a.apply_worker applyWorker
+					, DATE_FORMAT(a.rgst_date, '%Y.%m.%d %H:%i') rgstDate
+					, a.rgst_id rgstId
+					, DATE_FORMAT(a.upd_date, '%Y.%m.%d %H:%i') updDate
+					, a.upd_id updId
+					,  ( @rank := @rank + 1 ) AS RNK
+			from tb_ms_sol_site a, ( SELECT @rank := 0 ) b
+			<where>
+				<if test="solVersion != null and solVersion !=''">
+					a.sol_version = #{solVersion}
+				</if>
+				<if test="siteId != null and siteId !=''">
+					AND a.site_id = #{siteId}
+				</if>
+				<if test="applyWorker != null and applyWorker !=''">
+					AND a.apply_worker LIKE CONCAT('%',#{applyWorker},'%')
+				</if>
+				<if test="applyContents != null and applyContents !=''">
+					AND a.apply_contents LIKE CONCAT('%',#{applyContents},'%')
+				</if>
+				<if test='null != applyDateFrom and !"".equals(applyDateFrom) 
+						and null != applyDateTo and !"".equals(applyDateTo)'>
+		    		AND a.apply_date BETWEEN REPLACE(#{applyDateFrom}, '.', '') 
+		    		AND REPLACE(#{applyDateTo}, '.', '')
+			    </if>
+			</where>
+			) AA
+		WHERE RNK BETWEEN (#{SOLVERSION_CUR_PAGE} - 1) * #{SOLVERSION_PER_PAGE} + 1 
+		AND #{SOLVERSION_CUR_PAGE} * #{SOLVERSION_PER_PAGE}
+		ORDER BY solVersion
+	</select>
+	
+	<select id="getSiteSolVerCnt" resultType="String">
+		SELECT	COUNT(*) AS CNT
+		FROM 	tb_ms_sol_site a
+		<where>
+			<if test="solVersion != null and solVersion !=''">
+				a.sol_version = #{solVersion}
+			</if>
+			<if test="siteId != null and siteId !=''">
+				AND a.site_id = #{siteId}
+			</if>
+			<if test="applyWorker != null and applyWorker !=''">
+				AND a.apply_worker LIKE CONCAT('%',#{applyWorker},'%')
+			</if>
+			<if test="applyContents != null and applyContents !=''">
+				AND a.apply_contents LIKE CONCAT('%',#{applyContents},'%')
+			</if>
+			<if test='null != applyDateFrom and !"".equals(applyDateFrom) 
+					and null != applyDateTo and !"".equals(applyDateTo)'>
+	    		AND apply_date BETWEEN REPLACE(#{applyDateFrom}, '.', '') 
+	    		AND REPLACE(#{applyDateTo}, '.', '')
+		    </if>
+		</where>
+	</select>
+	
+	<select id="getAddedSiteSolVersionAvail" resultType="String">
+        SELECT	CASE WHEN 
+        			COUNT(1) = 0 THEN 'Y'
+	           	ELSE 'N' END AS AVAIL_YN
+		FROM 	tb_ms_sol_site
+		WHERE 	site_id = #{site_id}
+		AND		sol_version = #{sol_version}
+	</select>
+	
+	<insert id="insertAddedSiteSolVersion">
+		INSERT INTO tb_ms_sol_site
+		(
+			site_id
+			, sol_version
+			, apply_date
+			, apply_contents
+			, apply_worker 
+			, rgst_date
+			, rgst_id
+			, upd_date
+			, upd_id
+		)
+		VALUES
+		(
+			#{siteId}
+			, #{solVersion}
+			, #{applyDate}
+			, #{applyContents}
+			, #{applyWorker} 
+			, NOW()
+			, #{userId}
+			, NOW()
+			, #{userId}
+		)
+	</insert>
+	
+	<update id="updateSiteSolVersion">
+		UPDATE 	tb_ms_sol_site
+		SET	    sol_version 	 = #{solVersion}    
+				, apply_date     = #{applyDate}     
+				, apply_contents = #{applyContents} 
+				, apply_worker   = #{applyWorker}   
+				, upd_date		 = NOW()
+				, upd_id		 = #{userId}
+		WHERE	sol_site_id = #{solSiteId}
+	</update>
+	
+	<delete id="deleteSiteSolVersion">
+		DELETE 	FROM tb_ms_sol_site
+		WHERE	sol_site_id = #{solSiteId}
+	</delete>
+</mapper>
+

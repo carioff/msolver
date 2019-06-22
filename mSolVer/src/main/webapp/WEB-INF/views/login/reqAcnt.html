@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>11번가 back office</title>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- jQuery library -->
+<script src="resources/js/jquery-1.12.4.min.js"></script>
+
+<!-- AngularJS library -->
+<script src="resources/js/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28//angular-route.min.js"></script>
+
+<!-- bootstrap library -->
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+<script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+
+<!-- project bootbox js -->
+<script type="text/javascript" src="resources/js/bootbox.min.js"></script>
+
+<!-- jquery cookie js -->
+<script src="resources/js/jquery.cookie.min.js"></script>
+
+<!-- project common js -->
+<script type="text/javascript" src="resources/js/common.js"></script>
+<link rel="stylesheet" media="screen" href="resources/css/air.css">
+<link rel="stylesheet" media="screen" href="resources/css/signin.css">
+
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- HTML5 shim and Respond.js IE8 support resources/js/HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.resources/js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body ng-app="app_reqAcnt" ng-controller="ctr_reqAcnt" class="tmall_air_body">
+	<!--  ng-app="app_reqAcnt" -->
+
+	<div class="container">
+		<div class="row" style="text-align: -webkit-center;">
+
+
+			<div class="col-md-12" style="width: 300px; margin-top: 50px;">
+				<!-- 			<button type="button" class="close" id="modal-close2" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+				<div class="panel-heading" style="padding: 0px 0px;">
+					<h6 class="panel-title">
+						<span> <i class="fa fa-user" style="color: #77a4c8;"></i>
+						</span> <b id="title_01" ng-click="colp_basicInfo = !colp_basicInfo">&nbsp;&nbsp;계정신청</b>
+					</h6>
+					<button type="button" class="close" id="modal-close" aria-label="Close">
+						<span aria-hidden="true" class="exitBtn exitBtn-account">×</span>
+					</button>
+				</div>
+				<div style="height: 10px; clear: both;"></div>
+	
+				<div class="row" style="margin-bottom: 5px;">
+					<div class="col-md-12" style="padding: 0 !important;">
+
+						<div class="input-group input-group-sm" style="width: 99%;">
+							<input type="text" id="inp_USR_ID" name="inp_USR_ID" class="form-control ng-pristine"
+								ng-model="layer_input.userId" maxlength="25" placeholder="ID"
+								style="width: 230px; margin-bottom: 5px; height: 38px;">
+							<button type="button" class="btn-f21-basic btn-1 btn-xs" ng-click="chkIdDup()"
+								style="margin-left: 8px; background-color: #e2e2e2; border-color: #f3f3f3; line-height: 1.8; padding: 4px 10px;">중복체크</button>
+						</div>
+						<div class="input-group input-group-sm" style="width: 99%;">
+							<input type="password" id="inp_USR_PWD" name="inp_USR_PWD" class="form-control ng-pristine"
+								ng-model="layer_input.password" maxlength="50" placeholder="PW"
+								style="margin-bottom: 8px; height: 38px;">
+						</div>
+						<div class="input-group input-group-sm" style="width: 99%;">
+							<input type="text" id="inp_USR_NM" name="inp_USR_NM" class="form-control ng-pristine"
+								ng-model="layer_input.userName" maxlength="50" placeholder="NAME"
+								style="margin-bottom: 8px; height: 38px;">
+						</div>
+						<div class="input-group input-group-sm" style="width: 99%;">
+							<input type="text" id="inp_USR_EMAIL" name="inp_USR_EMAIL" class="form-control ng-pristine"
+								ng-model="layer_input.email" maxlength="50" placeholder="EMAIL"
+								style="margin-bottom: 8px; height: 38px;">
+						</div>
+
+					</div>
+					<div style="height: 10px; clear: both;"></div>
+					<div style="text-align: center">
+						<button class="btn btn-lg btn-primary btn-block btn-11st-login" type="button"
+							style="line-height: 0.8; border-radius: 4px; border-color: #6aa8c7; width: 310px; background: linear-gradient(#7babd4, #75a1c1);"
+							ng-click="addUser()" id="saveBtn">Create Your Account</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- 	</div> -->
+
+	<script src="resources/js/login/reqAcnt.js"></script>
+
+</body>
+
+</html>

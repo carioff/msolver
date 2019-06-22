@@ -1,0 +1,100 @@
+<div class="popup" ng-cloak>
+
+	<div class="container">
+		<div class="air-header">
+			<div class="air-title">
+				<h4>Solution Version On Site Manager</h4>
+				<div style="text-align: right !important;">
+					<button type="button" class="btn btn-default search-btn-11st" 
+						ng-click="getSiteSolVerList()">
+						<i class="fa fa-search"></i>
+						&nbsp;&nbsp;SEARCH
+					</button>
+				</div>
+			</div>
+
+			<div class="air-search search-row-11st">
+				<div class="row search-row-11st">
+					<div class="col-md-2">
+						<span>Site Name</span> 
+						<select ng-model="selectedCmbSite" class="btn form-air">
+							<option value="">Site Name</option>
+							<option ng-repeat="item in siteId" value="{{item.siteId}}">{{item.siteId}}</option>
+						</select>
+					</div>
+					<div class="col-md-2">
+						<span>Solution Version</span> 
+						<select ng-model="selectedCmbSolVer" class="btn form-air">
+							<option value="">Solution Version</option>
+							<option ng-repeat="item in solVersion" value="{{item.solVersion}}">{{item.solVersion}}</option>
+						</select>
+					</div>
+					<div class="col-md-1">
+						<span>Apply Date: </span> 
+						<input class="form-air" type="text" id="input_applyDateFrom" name="from" 
+						ng-model="input_applyDateFrom" placeholder="YYYY.MM.DD">
+					</div>
+					<div class="col-md-1">
+						<span>~</span> 
+						<input class="form-air" type="text" id="input_applyDateTo" name="to" 
+						ng-model="input_applyDateTo" placeholder="YYYY.MM.DD">
+					</div>
+					<div class="col-md-2">
+						<span>Apply Worker</span> 
+						<input id="input_applyWorker" type="text" maxlength="2" class="form-air" placeholder="Apply Worker"
+							ng-keyup="$event.keyCode == 13 ? getSiteSolVerList() : null" ng-model="input_applyWorker">
+					</div>
+					<div class="col-md-2">
+						<span>Apply Contents</span> 
+						<input id="input_applyContents" type="text" maxlength="2" class="form-air" placeholder="Apply Contents"
+							ng-keyup="$event.keyCode == 13 ? getSiteSolVerList() : null" ng-model="input_applyContents">
+					</div>
+					<div class="col-md-2">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container air-body">
+			<div class="row">
+				<div class="col-md-12 left-grid-11st">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6 left-grid-11st">
+								<h5>Solution Version On Site</h5>
+							</div>
+							<div class="col-md-6" style="text-align: right !important;">
+								Total Row: {{page_cd.totalItems || 0}}&nbsp;&nbsp;
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" 
+									style="display:none;" ng-click="addSS()"><i class="fa fa-plus"></i>
+								</button>
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" 
+									style="display:none;" ng-click="delSS()"><i class="fa fa-minus"></i>
+								</button>
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" 
+									style="display:none;" ng-click="saveSS()"><i class="fa fa-floppy-o"></i>
+								</button>
+								&nbsp;
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 left-grid-11st">
+								<div id="hst_ss" class="border-grid-11st" style="overflow: scroll; clear: both;"></div>
+								<div style="text-align: center;">
+									<pagination boundary-links="true" total-items="page_cd.totalItems"
+										ng-model="page_cd.currentPage" ng-change="getSiteSolVerList()"
+										items-per-page="page_cd.perPage" max-size="10"
+										class="pagination-sm" previous-text="&lsaquo;"
+										next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+									</pagination>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+</div>

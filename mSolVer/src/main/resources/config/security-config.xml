@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		 				http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+	default-autowire="byName">
+
+	<!-- security filter chain 미적용 -->
+	<sec:http pattern="/resources/js/**" security="none" />
+	<sec:http pattern="/resources/css/**" security="none" />
+	<sec:http pattern="/resources/font/**" security="none" />
+	<sec:http pattern="/resources/images/**" security="none" />
+	
+	<!-- 스프링 security가 기본 제공 하는 PasswordEncoder -->
+	<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
+	<sec:http auto-config="true" use-expressions="true">
+		<sec:csrf disabled="true" />
+		
+		<sec:intercept-url pattern="/main/**" access="hasAnyRole('ROLE_USER','ROLE_MEMBER','ROLE_ADMIN')" />
+		<sec:intercept-url pattern="/**" access="permitAll" />
+		<sec:intercept-url pattern="/reqAcnt" access="permitAll" />
+		
+		<sec:form-login
+			username-parameter="userId" 
+			password-parameter="password"  
+			login-page="/"
+			login-processing-url="/login"
+			authentication-success-handler-ref="loginSuccessHandler"
+			authentication-failure-handler-ref="loginFailureHandler" 
+		/>
+		
+		<sec:logout 
+			logout-url="/logout" 
+			invalidate-session="true" 
+			logout-success-url="/login?status=logout" 
+		/>
+		
+		<sec:session-management invalid-session-url="/loginFailure">
+			<sec:concurrency-control 
+				max-sessions="1" 
+				error-if-maximum-exceeded="false" 
+			/>
+		</sec:session-management>
+		
+	</sec:http>
+	
+	<!-- secured method -->
+	<sec:global-method-security secured-annotations="enabled" />
+
+	<!-- provider -->
+	<bean id="userAuthService" class="com.rootech.msolver.common.auth.CustomUserDetailsService" />
+
+	<bean id="userAuthProvider" class="com.rootech.msolver.common.auth.UserAuthProvider">
+		<property name="userDetailsService" ref="userAuthService" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+	</bean>
+	
+	<sec:authentication-manager>
+		<sec:authentication-provider ref="userAuthProvider" />
+	</sec:authentication-manager>
+
+	<bean id="loginSuccessHandler" class="com.rootech.msolver.common.security.LoginSuccessHandler">
+		<property name="defaultTargetUrl" value="/main" />
+		<property name="alwaysUseDefaultTargetUrl" value="true" />
+	</bean>
+
+	<bean id="loginFailureHandler" class="com.rootech.msolver.common.security.LoginFailureHandler">
+		<property name="defaultFailureUrl" value="/login?status=fail" />
+	</bean>
+
+	
+
+</beans>

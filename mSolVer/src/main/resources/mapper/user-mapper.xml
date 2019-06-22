@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rootech.msolver.mapper.UserMapper">
+	<select id="selectUser" parameterType="userVo" resultType="customUserDetails">
+		/*com.rootech.msolver.mapper.UserMapper.selectUser */
+		select a.user_id user_id
+				, a.password password
+				, a.enabled enabled
+				, b.authority authority
+		from tb_ms_user a, tb_ms_user_authority b
+		<where>
+			 a.user_id = b.user_id
+			<if test='null != userId and !"".equals(userId)'>
+				and a.user_id = #{userId}
+			</if>
+			<if test='null != password and !"".equals(password)'>
+				and a.password = #{password}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectLoginUser" parameterType="userVo" resultType="userVo">
+		/*com.rootech.msolver.mapper.UserMapper.selectLoginUser */
+		select a.user_id userId
+				, a.password password
+				, a.enabled enabled
+				, a.user_name userName
+				, a.email email
+				, b.authority authority
+				, c.authority_name authorityName
+		from tb_ms_user a, tb_ms_user_authority b, tb_ms_authority c
+		<where>
+			 a.user_id = b.user_id
+			 and b.authority = c.authority
+			<if test='null != userId and !"".equals(userId)'>
+				and a.user_id = #{userId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="chkDupUser" parameterType="userVo" resultType="String">
+		/*com.rootech.msolver.mapper.UserMapper.chkDupUser */
+		select case count(*)
+		         when 0
+		         then 'N'
+		         else 'Y'
+		       end as avail_yn
+		from tb_ms_user a
+		<where>
+			<if test='null != userId and !"".equals(userId)'>
+				and a.user_id = #{userId}
+			</if>
+		</where>
+	</select>
+	<!-- 사용자 등록 -->
+	<insert id="insertUser" parameterType="userVo">
+		/*com.rootech.msolver.mapper.UserMapper.insertUser */
+		insert into tb_ms_user (
+			  user_id
+			, password
+			, user_name
+			, enabled
+			, rgst_date
+			, rgst_id
+			, upd_date
+			, upd_id
+		) VALUES (
+			  #{userId}  
+			, #{password} 
+			, #{userName}
+			, TRUE
+			, Now()
+			, #{userId}  
+			, Now()
+			, #{userId}   
+		)
+	</insert>
+	
+	<!-- 사용자  수정 -->
+	<update id="updateUser" parameterType="userVo">
+		/* com.rootech.msolver.mapper.UserMapper.updateUser */
+		update tb_ms_user
+		   set
+				, password 	= #{password} 
+				, user_name	= #{userName} 
+				, enabled  	= #{enabled}         
+				, upd_date 	= Now()       
+				, upd_id   	= #{userId}   
+		 where	user_id = #{userId}
+	</update>
+	
+	<!-- 사용자 삭제 -->
+	<delete id="deleteUser" parameterType="userVo">
+		/* com.rootech.msolver.mapper.UserMapper.deleteUser */
+		delete from tb_ms_user
+		<where>
+			<if test='null != userId and !"".equals(userId)'>
+				and user_id = #{userId}
+			</if>
+			<if test='null != password and !"".equals(password)'>
+				and password = #{password}
+			</if>
+		</where>
+	</delete>
+	
+</mapper>
+

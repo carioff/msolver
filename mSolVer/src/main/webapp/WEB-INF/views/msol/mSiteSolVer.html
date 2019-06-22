@@ -1,0 +1,122 @@
+<div class="popup" ng-cloak>
+	<div class="container">
+		<div class="air-header">
+			<div class="air-title">
+				<h4>Site & Solution Version Manager</h4>
+				<span style="position:relative; padding: 0% 0% 0% 5%;">
+					<button type="button" class="btn btn-default search-btn-11st" ng-click="getSiteList()">
+						<i class="fa fa-search"></i>
+						&nbsp;&nbsp;SEARCH
+					</button>
+				</span>
+				<span style="position:relative; padding: 0% 0% 0% 45%;">
+					<button type="button" class="btn btn-default search-btn-11st" ng-click="getSolVersionList()">
+						<i class="fa fa-search"></i>
+						&nbsp;&nbsp;SEARCH
+					</button>
+				</span>
+
+			</div>
+			<div class="air-search search-row-11st">
+				<div class="row search-row-11st">
+					<div class="col-md-1">
+						<span>Site ID</span>
+						<input id="input_siteId" type="text" maxlength="4" class="form-air" 
+						placeholder="Site ID" ng-keyup="$event.keyCode == 13 ? getSiteList() : null" 
+						ng-model="input_siteId">
+					</div>
+					<div class="col-md-2">
+						<span>Site Name</span>
+						<input id="input_siteName" type="text" maxlength="50" class="form-air" 
+						placeholder="Site Name" ng-keyup="$event.keyCode == 13 ? getSiteList() : null" 
+						ng-model="input_siteName">
+					</div>
+					<div class="col-md-3">
+					</div>
+					<div class="col-md-2">
+						<span>Solution Version</span>
+						<input id="input_solVersion" type="text" maxlength="4" class="form-air" 
+						placeholder="Solution Version" ng-keyup="$event.keyCode == 13 ? getSolVersion() : null" 
+						ng-model="input_solVersion">
+					</div>
+					<div class="col-md-2">
+						<span>Solution Name</span>
+						<input id="input_solName" type="text" maxlength="50" class="form-air" 
+						placeholder="Solution Name" ng-keyup="$event.keyCode == 13 ? getSolVersion() : null" 
+						ng-model="input_solName">
+					</div>
+					<div class="col-md-1">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container air-body">
+			<div class="row">
+				<div class="col-md-4 left-grid-11st">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-4 left-grid-11st">
+								<h5>Site</h5>
+							</div>
+							<div class="col-md-8" style="text-align: right !important;">
+								Total Row: {{page_siteId.totalItems || 0}}&nbsp;&nbsp;
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" 
+								style="display:none;" ng-click="addSite()"><i class="fa fa-plus"></i></button>
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" 
+								style="display:none;" ng-click="delSite()"><i class="fa fa-minus"></i></button>
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" 
+								style="display:none;" ng-click="saveSite()"><i class="fa fa-floppy-o"></i></button>
+								&nbsp;
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 left-grid-11st">
+								<div id="hst_siteId" class="border-grid-11st" style="overflow: scroll; clear: both;"></div>
+								<div style="text-align: center;">
+									<pagination boundary-links="true" total-items="page_siteId.totalItems" 
+									ng-model="page_siteId.currentPage" ng-change="getSiteList()" 
+									items-per-page="page_siteId.perPage" max-size="max_size" class="pagination-sm" 
+									previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" 
+									last-text="&raquo;"> </pagination>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 top-grid-11st"></div>
+				<div class="col-md-5 top-grid-11st">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-4 left-grid-11st">
+								<h5>Solution Version</h5>
+							</div>
+							<div class="col-md-8" style="text-align: right !important;">
+								Total Row: {{page_solVersion.totalItems || 0}}&nbsp;&nbsp;
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" 
+								style="display:none;" ng-click="addSolVersion()"><i class="fa fa-plus"></i></button>
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" 
+								style="display:none;" ng-click="delSolVersion()"><i class="fa fa-minus"></i></button>
+								<button type="button" class="btn btn-default btn-2 btn-xs cudAuthCtr btn-grid-11st" 
+								style="display:none;" ng-click="saveSolVersion()"><i class="fa fa-floppy-o"></i></button>
+								&nbsp;
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 left-grid-11st">
+								<div id="hst_solVersion" class="border-grid-11st" style="overflow: scroll; clear: both;"></div>
+								<div style="text-align: center;">
+									<pagination boundary-links="true" total-items="page_solVersion.totalItems" 
+									ng-model="page_solVersion.currentPage" ng-change="getSolVersion()" 
+									items-per-page="page_solVersion.perPage" max-size="max_size" class="pagination-sm" 
+									previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" 
+									last-text="&raquo;"> </pagination>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-1 top-grid-11st"></div>
+			</div>
+		</div>
+	</div>
+</div>
