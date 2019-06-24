@@ -50,7 +50,7 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "코드", "N");
 //			var gridData= cdToNmOfGridData(returnData.siteSolVerList);//Cd를 Name형식으로 변환
-			hshelper_cd.init();
+//			hshelper_cd.init();
 //			hshelper_cd.setData(gridData);
 			hshelper_cd.setData(returnData.siteSolVerList);
 			$scope.page_cd.totalItems = returnData.VARIABLE_MAP.siteSolVerCnt;
@@ -87,7 +87,7 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 		
 		var metaData = {};
 		metaData.readonlyBool 		= false;
-		metaData.colHeaders 		= ["", "No.", "ID*", "Site Name*", "Solution Version*", 
+		metaData.colHeaders 		= ["", "No.", "ID*", "Site ID*", "Solution Version*", 
 										"Apply Date*", "Apply Worker", "Apply Contents", 
 										"RGST DATE", "RGST ID", "UPD DATE", "UPD ID"];
 		metaData.colWidths 			= [42, 40, 40, 180, 100, 
@@ -97,17 +97,13 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 			 						   {data: "CHK", type: "checkbox", readOnly:false},
 			   						   {data: "RNK", type: "textCenter", readOnly: true},
 			   						   {data: "solSiteId", type: "textCenter", readOnly: true},
-//			   						   {data: "siteId", type: "textCenter"},
-				   					   {data: "siteId", type: "dropdown",
-//		                 				    source: site_source,
-			   							   	source:["DA01", "DA02", "SA02", "TA01", "TA02"],
+				   					   {data: "siteId", type: "autocompleteCenter",
+		                 				    source: site_source,
 		                 				    strinct: false,
 		                 				    filter: false,
 		                 				    readOnly: false},
-//			   						   {data: "solVersion", type: "textCenter"},
-	                 				   {data: "solVersion", type: "autocomplete",
-//		                 				    source: sol_ver_source,
-		                 				   	source:["1250", "1251", "1252", "2001", "2002"],
+	                 				   {data: "solVersion", type: "autocompleteCenter",
+		                 				    source: sol_ver_source,
 		                 				    strinct: false,
 		                 				    filter: false,
 		                 				    readOnly: false},
@@ -160,11 +156,12 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
 		addDataObj(jQuery, dataObj, "ss_chg", hshelper_cd.getHsChgData());
 		
-//		if(lengthCheck(dataObj.do_cd_chg, {AIR_CD: 2, AIR_NO_CD: 4, AIR_KOR_NM: 50, AIR_ENG_NM: 50, NA_CD: 2, SORT_ORDR: 3}, 
-//											["항공사 코드", "항공사 숫자코드", "항공사 한글명", "항공사 영문명", "국가 코드", "정렬 순서"])) return;
-//		if(mandantoryColumnCheck(dataObj.do_cd_chg, ["AIR_CD", "USE_YN"], ["항공사코드", "사용여부"])) return;
-//		if(alphabetNumCheck(dataObj.do_cd_chg, ["AIR_CD"], ["항공사 코드"])) return;
-//		if(numCheck(dataObj.do_cd_chg, ["SORT_ORDR"], ["정렬순서"])) return;
+		if(lengthCheck(dataObj.ss_chg, {applyDate: 8, applyWorker: 25, applyContents: 25}, 
+											["Apply Date", "Apply Worker", "Apply Contents"])) return;
+		if(mandantoryColumnCheck(dataObj.ss_chg, ["siteId", "solVersion","applyDate"], 
+				["Site ID", "Solution Version", "Apply Date"])) return;
+//		if(alphabetNumCheck(dataObj.ss_chg, ["AIR_CD"], ["항공사 코드"])) return;
+		if(numCheck(dataObj.ss_chg, ["applyDate"], ["Apply Date"])) return;
 		
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "Solution Version On Site", "Y");

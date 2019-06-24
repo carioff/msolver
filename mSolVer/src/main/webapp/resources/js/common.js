@@ -246,10 +246,10 @@ function lengthCheck(do_chg, jsonObj, arryNm) {
 		for (var j = 0; j < Object.keys(do_chg).length; j++) {
 			curRow = Object.keys(do_chg)[j];
 			if (do_chg[curRow].ROW_STATUS != 'D') {
-				// if (undefined != eval("do_chg[" + curRow + "]." + columnNm)) {
-				if (undefined != do_chg.curRow) {
-					// curLength = eval("do_chg[" + curRow + "]." + columnNm).length;
-					curLength = do_chg.curRow.length;
+				 if (undefined != eval("do_chg[" + curRow + "]." + columnNm)) {
+//				if (undefined != do_chg.curRow) {
+					 curLength = eval("do_chg[" + curRow + "]." + columnNm).length;
+//					curLength = do_chg.curRow.length;
 					if (maxLength < curLength) {
 						bootbox.alert("'" + arryNm[i] + "'은(는) " + maxLength
 								+ " 글자 이상 입력하실 수 없습니다.");
@@ -475,13 +475,16 @@ function mandantoryColumnCheck(do_chg, arryObj, arryNm) {
 
 		for (var j = 0; j < Object.keys(do_chg).length; j++) {
 			curRow = Object.keys(do_chg)[j];
-			if (do_chg[curRow].ROW_STATUS != 'D' && columnNm == curRow) {
-				curLength = do_chg[curRow].length;
-				if (curLength < 1 || do_chg[curRow] == ':') {
+			if (do_chg[curRow].ROW_STATUS != 'D') {
+				if (undefined == eval("do_chg[" + curRow + "]." + columnNm)) {
 					bootbox.alert("'" + arryNm[i] + "'은(는) 필수 입력 값입니다.");
 					return true;
-				} else {
-					continue;
+				}
+				curLength = eval("do_chg[" + curRow + "]." + columnNm).length;
+				if (0 >= curLength
+						|| eval("do_chg[" + curRow + "]." + columnNm) == ':') {
+					bootbox.alert("'" + arryNm[i] + "'은(는) 필수 입력 값입니다.");
+					return true;
 				}
 			}
 		}

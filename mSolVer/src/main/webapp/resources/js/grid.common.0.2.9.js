@@ -443,19 +443,26 @@ function customedRenderer(instance, td, row, col, prop, value, cellProperties) {
 	if((cellProperties.type == 'dropdown' || cellProperties.type == 'autocomplete' 
 		|| cellProperties.type == 'autocompleteCenter') && value != null) {
 		instance.setCellMeta(row, col, 'className', 'htDropdown');
-		if(value.indexOf(':') == -1 && value.length >= 3) {
-			var evalStr = "instance.getData()[row]." + arguments[4] + "= ''";
-			eval(evalStr);
-		}
+		
+//		if(value.indexOf(':') == -1 && value.length >= 3) {
+//			var evalStr = "instance.getData()[row]." + arguments[4] + "= ''";
+//			eval(evalStr);
+//		}
+		
 		Handsontable.renderers.TextRenderer.apply(this, arguments);
-		code = value.match(/.+(?=\:)/mg);
-		if(code != null) {
-			code = code.toString();
-			desc = value.replace(code, "").replace(':', "").replace("'", "");
-			td.textContent = desc;
-		} else {
-			td.textContent = '';
-		}
+		td.textContent = value; //code:value=> value만 받기 190624
+		
+//		code = value.match(/.+(?=\:)/mg);
+//		td.textContent = desc;
+
+//		if(code != null) {
+//			code = code.toString();
+//			desc = value.replace(code, "").replace(':', "").replace("'", "");
+//			td.textContent = desc;
+//		} else {
+//			td.textContent = '';
+//		}
+		
 		//autocomplete Center 정렬 추가 
 		if(cellProperties.type == 'autocompleteCenter') {
 			$(td).addClass("htAutocompleteCenter");

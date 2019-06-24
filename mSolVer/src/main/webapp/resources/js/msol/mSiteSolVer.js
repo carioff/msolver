@@ -176,10 +176,9 @@ app.controller('ctr_mSiteSolVer', function($scope, $http, $document, $window, $q
 		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
 		addDataObj(jQuery, dataObj, "site_chg", hshelper_siteId.getHsChgData());
 		
-		// Validation 수정필요 190619
-//		if(lengthCheck(dataObj.site_chg, {siteId: 4, siteName: 25}, ["Site ID", "Site Name"])) return;
-//		if(mandantoryColumnCheck(dataObj.site_chg, ["siteId","siteName"], ["Site ID", "Site Name"])) return;
-//		if(alphabetNumCheck(dataObj.site_chg, ["siteId"], ["Site ID"])) return;
+		if(lengthCheck(dataObj.site_chg, {siteId: 4, siteName: 25}, ["Site ID", "Site Name"])) return;
+		if(mandantoryColumnCheck(dataObj.site_chg, ["siteId","siteName"], ["Site ID", "Site Name"])) return;
+		if(alphabetNumCheck(dataObj.site_chg, ["siteId"], ["Site ID"])) return;
 		
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "Site Save", "N");
@@ -197,11 +196,10 @@ app.controller('ctr_mSiteSolVer', function($scope, $http, $document, $window, $q
 		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
 		addDataObj(jQuery, dataObj, "solVersion_chg", hshelper_solVersion.getHsChgData());
 		
-		// Validation 수정필요 190619
-//		if(lengthCheck(dataObj.solVersion_chg, {solVersion: 4, solName: 25}, 
-//												["Solution Version", "Solution Name"])) return;
-//		if(mandantoryColumnCheck(dataObj.solVersion_chg, ["solVersion", "solName"], ["Solution Version", "Solution Name"])) return;
-//		if(numCheck(dataObj.solVersion_chg, ["solVersion"], ["Solution Version"])) return;
+		if(lengthCheck(dataObj.solVersion_chg, {solVersion: 4, solName: 25}, 
+												["Solution Version", "Solution Name"])) return;
+		if(mandantoryColumnCheck(dataObj.solVersion_chg, ["solVersion", "solName"], ["Solution Version", "Solution Name"])) return;
+		if(numCheck(dataObj.solVersion_chg, ["solVersion"], ["Solution Version"])) return;
 		
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "Solution Version Save", "N");
