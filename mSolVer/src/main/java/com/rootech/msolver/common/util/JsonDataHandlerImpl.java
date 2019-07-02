@@ -183,7 +183,7 @@ public class JsonDataHandlerImpl implements DataHandler {
 				}
 //				jsonObj.put(entry.getKey(), new Gson().toJson(entry.getValue()));
 			}
-		}
+		} 
 
 		return jsonObj;
 	}

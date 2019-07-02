@@ -65,7 +65,7 @@
 .air-body {
     padding-top: 10px
 }
-#main-modal-content {
+#main-modal-content, #main-modal-msg {
     background-color: white;
     border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -83,7 +83,7 @@
     width: 500px;
     z-index: 1000;
 }
-#main-modal-background {
+#main-modal-background, #main-modal-msg-background {
     display: none;
     position: fixed;
     top: 0;
@@ -97,10 +97,16 @@
     filter: alpha(opacity 50);
     z-index: 1000;
 }
-#main-modal-background.active,
+#main-modal-background.active, 
 #main-modal-content.active {
     display: block;
 }
+
+#main-modal-msg-background.active,
+#main-modal-msg.active {
+	display: block;
+}
+
 #modal-content {
     background-color: white;
     border-radius: 10px;

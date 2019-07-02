@@ -1,6 +1,7 @@
 var app = angular.module('app_main', [ 'ngRoute', 'ui.bootstrap' ]);
 
 var newUsrPwd="N";//사용자 암호 신규 입력 체크
+var client;
 
 app.config(function($httpProvider) {
 	$httpProvider.responseInterceptors.push('httpInterceptorForLoading');
@@ -88,15 +89,68 @@ app.controller('ctr_main', function($scope, $http, $document, $window, $location
 
 
 	$scope.getUsrAcnt = function() {
-
 		$("#main-modal-content,#main-modal-background").toggleClass("active");
 		$("#main-modal-content,#main-modal-background").draggable();
 		$("input[name=inp_main_password]").attr("readonly",true);//추후 암호리셋 기능 필요
-
 	};
 	
 	$("#main-modal-background, #main-modal-close, #main-modal-close2").click(function () {
 		$("#main-modal-content,#main-modal-background").toggleClass("active");
+	});
+	
+	$scope.showRetainedMsg = function() {
+		// Create a client instance
+		client = new Paho.MQTT.Client('10.10.19.28', 1883, $scope.userId);
+
+		// set callback handlers
+		client.onConnectionLost = $scope.onConnectionLost;
+		client.onMessageArrived = $scope.onMessageArrived;
+
+		// connect the client
+		client.connect({onSuccess:$scope.onConnect});
+		
+//		$scope.layer_input.retainedMsg = 123123123; 
+//		$("#main-modal-msg,#main-modal-msg-background").toggleClass("active");
+//		$("#main-modal-msg,#main-modal-msg-background").draggable();
+	};
+	
+	// called when the client connects
+	$scope.onConnect = function() {
+	  // Once a connection has been made, make a subscription and send a message.
+	  console.log("onConnect");
+	  client.subscribe("/test");
+//	  message = new Paho.MQTT.Message("Hello");
+//	  message.destinationName = "/test";
+//	  client.send(message);
+	};
+
+	// called when the client loses its connection
+	$scope.onConnectionLost = function(responseObject) {
+	  if (responseObject.errorCode !== 0) {
+	    console.log("onConnectionLost:"+responseObject.errorMessage);
+	  }
+	};
+
+	// called when a message arrives
+	$scope.onMessageArrived = function(message) {
+		console.log("onMessageArrived:"+message.payloadString);
+		window.setTimeout(function() {
+//			$scope.layer_input.retainedMsg = message.payloadString; //bindidng이 안됨 이유를 모르겠음...ㅂ
+			let pushMsg = message.payloadString.split("|");
+			$("#inp_siteId").val(pushMsg[0]);
+			$("#inp_solVersion").val(pushMsg[1]);
+			$("#inp_applyDate").val(pushMsg[2]);
+			$("#inp_applyWorker").val(pushMsg[3]);
+			$("#inp_applyContents").val(pushMsg[4]);
+			$("#inp_exeCategory").text(pushMsg[5]);
+			$("#main-modal-msg,#main-modal-msg-background").toggleClass("active");
+			$("#main-modal-msg,#main-modal-msg-background").draggable();
+		}, 1000);
+
+	};
+	
+	$("#main-modal-msg-background, #main-modal-close3, #main-modal-close4").click(function () {
+		$("#main-modal-msg, #main-modal-msg-background").toggleClass("active");
 	});
 	
 	$scope.updateUsrAcnt = function() {
@@ -178,6 +232,7 @@ app.controller('ctr_main', function($scope, $http, $document, $window, $location
 			,userName:""
 			,email:""
 			,uid:""
+			,retainedMsg:""
 		};
 		
 	};
@@ -197,17 +252,82 @@ app.controller('ctr_main', function($scope, $http, $document, $window, $location
 			$scope.layer_input.userName = returnData.VARIABLE_MAP.userName;
 			$scope.layer_input.password = returnData.VARIABLE_MAP.password;
 			$scope.layer_input.email = returnData.VARIABLE_MAP.email;
+			$scope.layer_input.retainedMsg = returnData.VARIABLE_MAP.retainedMsg;
+			if($scope.userId != undefined 
+					&& $scope.userId != null) {
+				$scope.showRetainedMsg();
+			}
 		};
 		
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
 	};
-
+	
+	$scope.subscribeMqtt = function() {
+		var dataObj = {};
+		var paramDataObj = {};
+		addDataObj(jQuery, paramDataObj, "SVC_ID", "subscribeMqtt");
+		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
+		
+		var afterSuccessFunc = function(returnData) {
+			exceptionHandler(returnData.RESULT, "", "N");
+			$scope.retainedMsg = returnData.retainedMsg;
+		};
+		
+		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
+	};
+	
 	$document.ready(function() {
-		$scope.getMenuList();
-
-		$scope.modalModelInit();
 
 		newUsrPwd="N";
+		client = "";
+		
+		$scope.modalModelInit();
+		
+		$scope.getMenuList();
+		
+		/*// Create a client instance
+		client = new Paho.MQTT.Client('10.10.19.28', 1883, 'TEST');
+
+		// set callback handlers
+		client.onConnectionLost = $scope.onConnectionLost;
+		client.onMessageArrived = $scope.onMessageArrived;
+
+		// connect the client
+		client.connect({onSuccess:$scope.onConnect});*/
+		
+
+		/*// called when the client connects
+		function onConnect() {
+		  // Once a connection has been made, make a subscription and send a message.
+		  console.log("onConnect");
+		  client.subscribe("World");
+		  message = new Paho.MQTT.Message("Hello");
+		  message.destinationName = "World";
+		  client.send(message);
+		}
+
+		// called when the client loses its connection
+		function onConnectionLost(responseObject) {
+		  if (responseObject.errorCode !== 0) {
+		    console.log("onConnectionLost:"+responseObject.errorMessage);
+		  }
+		}
+
+		// called when a message arrives
+		function onMessageArrived(message) {
+		  console.log("onMessageArrived:"+message.payloadString);
+		}
+		
+		// Create a client instance
+		client = new Paho.MQTT.Client(location.hostname, Number(location.port), "clientId");
+
+		// set callback handlers
+		client.onConnectionLost = onConnectionLost;
+		client.onMessageArrived = onMessageArrived;
+
+		// connect the client
+		client.connect({onSuccess:onConnect});*/
+		
 	});	
 	
 });

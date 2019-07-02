@@ -31,6 +31,11 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
+	public int insertUserAuth(UserVo userVo) {
+		return sqlSession.insert(NAMESPACE + ".insertUserAuth", userVo);
+	}
+	
+	@Override
 	public int updateUser(UserVo userVo) {
 		return sqlSession.update(NAMESPACE + ".updateUser", userVo);
 	}

@@ -61,6 +61,7 @@
 			  user_id
 			, password
 			, user_name
+			, email
 			, enabled
 			, rgst_date
 			, rgst_id
@@ -70,6 +71,7 @@
 			  #{userId}  
 			, #{password} 
 			, #{userName}
+			, #{email}
 			, TRUE
 			, Now()
 			, #{userId}  
@@ -105,5 +107,17 @@
 		</where>
 	</delete>
 	
+	<insert id="insertUserAuth" parameterType="userVo">
+		insert into tb_ms_user_authority 
+			(
+			 	user_id
+				, authority
+			)
+			VALUES 
+			(
+				#{userId}
+				, 'ROLE_USER'
+			)
+	</insert>
 </mapper>
 

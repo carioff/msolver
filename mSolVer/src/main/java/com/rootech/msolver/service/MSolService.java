@@ -18,6 +18,6 @@ public interface MSolService {
 
 	void saveSolVersion(IListData listData) throws Exception;
 
-	void saveSiteSolVer(IListData listData) throws Exception;
+	IListData saveSiteSolVer(IListData listData) throws Exception;
 
 }

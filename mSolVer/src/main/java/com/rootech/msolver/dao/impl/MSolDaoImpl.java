@@ -229,9 +229,9 @@ public class MSolDaoImpl extends MybatisCustom implements MSolDao {
 	}
 
 	@Override
-	public void insertAddedSiteSolVersion(HashMap<?, ?> rowData) throws Exception {
+	public int insertAddedSiteSolVersion(HashMap<?, ?> rowData) throws Exception {
 		try {
-			insert(nameSpace + ".insertAddedSiteSolVersion", rowData);
+			return insert(nameSpace + ".insertAddedSiteSolVersion", rowData);
 		} catch (Exception e) {
 			if(logger.isErrorEnabled()){
 				logger.error("fail to insertAddedSiteSolVersion", e);
@@ -242,9 +242,9 @@ public class MSolDaoImpl extends MybatisCustom implements MSolDao {
 	}
 
 	@Override
-	public void updateSiteSolVersion(HashMap<?, ?> rowData) throws Exception {
+	public int updateSiteSolVersion(HashMap<?, ?> rowData) throws Exception {
 		try {
-			update(nameSpace + ".updateSiteSolVersion", rowData);
+			return update(nameSpace + ".updateSiteSolVersion", rowData);
 		} catch (Exception e) {
 			if(logger.isErrorEnabled()){
 				logger.error("fail to updateSiteSolVersion", e);
@@ -255,9 +255,9 @@ public class MSolDaoImpl extends MybatisCustom implements MSolDao {
 	}
 
 	@Override
-	public void deleteSiteSolVersion(HashMap<?, ?> rowData) throws Exception {
+	public int deleteSiteSolVersion(HashMap<?, ?> rowData) throws Exception {
 		try {
-			delete(nameSpace + ".deleteSiteSolVersion", rowData);
+			return delete(nameSpace + ".deleteSiteSolVersion", rowData);
 		} catch (Exception e) {
 			if(logger.isErrorEnabled()){
 				logger.error("fail to deleteSiteSolVersion", e);

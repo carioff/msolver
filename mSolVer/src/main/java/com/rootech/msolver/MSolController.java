@@ -82,7 +82,7 @@ public class MSolController {
 		} else if ("getSelectedCmbs".equals(svc_id)) {
 			resultListData = mSolService.getSelectedCmbs();
 		} else if ("saveSiteSolVer".equals(svc_id)) {
-			mSolService.saveSiteSolVer(listData);
+			resultListData = mSolService.saveSiteSolVer(listData);
 		} 
 		jsonDataHandlerImpl.flushSuccessJSONResponse(res, jsonDataHandlerImpl.convertToJSONObject(resultListData));
 		//test push

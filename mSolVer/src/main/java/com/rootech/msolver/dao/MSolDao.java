@@ -40,10 +40,10 @@ public interface MSolDao {
 
 	String getAddedSiteSolVersionAvail(HashMap<?, ?> rowData) throws Exception;
 
-	void insertAddedSiteSolVersion(HashMap<?, ?> rowData) throws Exception;
+	int insertAddedSiteSolVersion(HashMap<?, ?> rowData) throws Exception;
 
-	void updateSiteSolVersion(HashMap<?, ?> rowData) throws Exception;
+	int updateSiteSolVersion(HashMap<?, ?> rowData) throws Exception;
 
-	void deleteSiteSolVersion(HashMap<?, ?> rowData) throws Exception;
+	int deleteSiteSolVersion(HashMap<?, ?> rowData) throws Exception;
 
 }

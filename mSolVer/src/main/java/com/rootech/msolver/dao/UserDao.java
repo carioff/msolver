@@ -16,4 +16,6 @@ public interface UserDao {
 	public int deleteUser(UserVo userVo);
 
 	public UserVo selectLoginUser(UserVo userVo);
+
+	public int insertUserAuth(UserVo userVo);
 }

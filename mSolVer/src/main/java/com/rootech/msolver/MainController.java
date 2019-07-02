@@ -30,9 +30,12 @@ import com.rootech.msolver.vo.UserVo;
  */
 @Controller
 public class MainController {
-
+	
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
+//	@Autowired 
+//	private PushService pushService;
+	
 	@Autowired 
 	private UserService userService;
 	
@@ -73,8 +76,11 @@ public class MainController {
 			resultListData.addVariable("auth", userVo.getAuthority());
 			resultListData.addVariable("authName", userVo.getAuthorityName());
 			logger.debug(">>>>> >>>>> >>>>> userId: " + resultListData.getVariableMap().get("userId")); 
-			
-		
+//			if(resultListData.getVariableMap().get("userId").equals(userVo.getUserId())) {
+//				pushService.initPush(userVo.getUserId());
+//			}
+//			resultListData.addVariable("retainedMsg", pushService.initPush());
+//			logger.debug(">>>>> >>>>> >>>>> retainedMsg: " + resultListData.getVariableMap().get("retainedMsg")); 
 		} else if("getUsrAcnt".equals(svc_id)) { 
 //			resultListData = reqAcntServiceImpl.getUsrAcnt(paramMap); 
 		} else if("updateUsrAcnt".equals(svc_id)) { 

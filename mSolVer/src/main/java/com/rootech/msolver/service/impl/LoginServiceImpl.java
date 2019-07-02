@@ -4,10 +4,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.rootech.msolver.LoginController;
 import com.rootech.msolver.common.dto.IListData;
 import com.rootech.msolver.common.util.JsonDataHandlerImpl;
 import com.rootech.msolver.dao.UserDao;
@@ -17,6 +20,8 @@ import com.rootech.msolver.vo.UserVo;
 @Service("LoginService")
 public class LoginServiceImpl implements LoginService{
 
+	private static final Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
+	
 	@Resource(name="UserDao")
 	private UserDao userDao;
 	
@@ -47,6 +52,9 @@ public class LoginServiceImpl implements LoginService{
 		if(ret != 1) {
 			return("Error");
 		} else {
+			// 관리자 권한관리 화면이 없어 임의로 'ROLE_USER' 권한 부여 190702
+			int ret2 =  userDao.insertUserAuth(userVo);
+			logger.debug("insertUserAuth Success: {}", ret2);
 			return userVo.getUserId();
 		}
 		

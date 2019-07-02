@@ -165,8 +165,22 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 		
 		var afterSuccessFunc = function(returnData) {
 			exceptionHandler(returnData.RESULT, "Solution Version On Site", "Y");
-			//저장후 재조회
-			if(returnData.RESULT.ERRORCODE == "0") $scope.getSiteSolVerList();
+			
+			//저장후 재조회 & Push Updated Contents
+			if(returnData.RESULT.ERRORCODE == "0") {
+				if(returnData.pushMsg != undefined){
+					let pushMsgObj = returnData.pushMsg[0];
+					let pushMsg = pushMsgObj.siteId + "|" + pushMsgObj.solVersion + "|" 
+					+ pushMsgObj.applyDate + "|" + pushMsgObj.applyWorker + "|" 
+					+ pushMsgObj.applyContents + "|" + pushMsgObj.exeCategory;
+					message = new Paho.MQTT.Message(pushMsg);
+					message.destinationName = "/test";
+					message.retained = true;
+					client.send(message);
+				}
+				
+				$scope.getSiteSolVerList();
+			}
 		};
 		
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
