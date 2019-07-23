@@ -62,7 +62,7 @@ public class DbConnectionTest {
 	
 //	@SuppressWarnings("static-access")
 	@Test
-//	@Ignores
+	@Ignore
 	public void getUsers() {
 		UserVo userVo = new UserVo();
 		userVo.setUserId("tester");
