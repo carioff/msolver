@@ -107,8 +107,11 @@ app.controller('ctr_main', function($scope, $http, $document, $window, $location
 		client.onMessageArrived = $scope.onMessageArrived;
 
 		// connect the client
-		client.connect({onSuccess:$scope.onConnect});
-		
+		client.connect({
+			timeout:3,
+			onSuccess:$scope.onConnect,
+			onFailure:$scope.onFailure,
+		});
 //		$scope.layer_input.retainedMsg = 123123123; 
 //		$("#main-modal-msg,#main-modal-msg-background").toggleClass("active");
 //		$("#main-modal-msg,#main-modal-msg-background").draggable();
@@ -118,16 +121,22 @@ app.controller('ctr_main', function($scope, $http, $document, $window, $location
 	$scope.onConnect = function() {
 	  // Once a connection has been made, make a subscription and send a message.
 	  console.log("onConnect");
-	  client.subscribe("/test");
+	  client.subscribe("linux/test");
 //	  message = new Paho.MQTT.Message("Hello");
 //	  message.destinationName = "/test";
 //	  client.send(message);
 	};
-
+	
+	$scope.onFailure = function(message) {
+		console.log('Connection Attempt to Host' +'10.10.19.28'+ 'Failed');
+		setTimeout($scope.showRetainedMsg, 50000);
+	};
+	
 	// called when the client loses its connection
 	$scope.onConnectionLost = function(responseObject) {
 	  if (responseObject.errorCode !== 0) {
 	    console.log("onConnectionLost:"+responseObject.errorMessage);
+	    setTimeout($scope.showRetainedMsg, 50000);
 	  }
 	};
 

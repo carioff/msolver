@@ -1,5 +1,10 @@
 package com.rootech.msolver;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +49,51 @@ public class LoginController {
 	public String goLoginPage2() throws Exception {
 		return "login/login";
 	}
+	
+//	@RequestMapping(value = "/login", method = RequestMethod.POST)
+//	public String getBody(HttpServletRequest request) throws IOException {
+//		Map<String, String> map = new HashMap<String, String>();
+//
+//        Enumeration headerNames = request.getHeaderNames();
+//        while (headerNames.hasMoreElements()) {
+//            String key = (String) headerNames.nextElement();
+//            String value = request.getHeader(key);
+//            map.put(key, value);
+//        }
+//
+//        String header = map.toString();
+//        String body = null;
+//        StringBuilder stringBuilder = new StringBuilder();
+//        BufferedReader bufferedReader = null;
+// 
+//        try {
+//            InputStream inputStream = request.getInputStream();
+//            if (inputStream != null) {
+//                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+//                char[] charBuffer = new char[128];
+//                int bytesRead = -1;
+//                while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
+//                    stringBuilder.append(charBuffer, 0, bytesRead);
+//                }
+//            } else {
+//                stringBuilder.append("");
+//            }
+//        } catch (IOException ex) {
+//            throw ex;
+//        } finally {
+//            if (bufferedReader != null) {
+//                try {
+//                    bufferedReader.close();
+//                } catch (IOException ex) {
+//                    throw ex;
+//                }
+//            }
+//        }
+// 
+//        body = stringBuilder.toString();
+//        return body;
+//    }
+
 	
 	@RequestMapping(value = "/loginFailure", method = RequestMethod.GET)
 	public String loginError(Model model, UserVo loginVo) {

@@ -36,7 +36,7 @@ public class MainController {
 //	@Autowired 
 //	private PushService pushService;
 	
-	@Autowired 
+	@Autowired
 	private UserService userService;
 	
 	@Autowired 
@@ -46,21 +46,21 @@ public class MainController {
 	private JsonDataHandlerImpl jsonDataHandlerImpl;
 
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public ModelAndView goMain(HashMap<String, Object> modelMap) throws Exception {
+	public ModelAndView goMain(HashMap<String, Object> modelMap, HttpServletRequest req) throws Exception {
 
 		return new ModelAndView("main");
 	}
 
 	@RequestMapping(value = "/main", method = RequestMethod.POST)
-	public void postMain(@RequestBody(required = false) HashMap<String, Object> reqBodyMap, 
-			HttpServletRequest req, HttpServletResponse res, 
-			BindingResult bindingResult, Authentication auth) throws Exception {
+	public ModelAndView postMain(@RequestBody(required = false) HashMap<String, Object> reqBodyMap, 
+			HttpServletRequest req, HttpServletResponse res, BindingResult bindingResult, 
+			Authentication auth) throws Exception {
+
 
 		IListData listData = jsonDataHandlerImpl.convertToIListData(reqBodyMap);
 		Map<?, ?> paramMap = listData.getParameterMap();
 		
 		IListData resultListData = new ListDataImpl();
-		
 		String svc_id = (String) paramMap.get("SVC_ID");
 		String userId = (String) auth.getPrincipal();
 		
@@ -88,7 +88,8 @@ public class MainController {
 //			reqAcntServiceImpl.updateUsrAcnt(paramMap); 
 		}
 		
-		jsonDataHandlerImpl.flushSuccessJSONResponse(res, jsonDataHandlerImpl.convertToJSONObject(resultListData)); 
+		jsonDataHandlerImpl.flushSuccessJSONResponse(res, jsonDataHandlerImpl.convertToJSONObject(resultListData));
+		return null; 
 
 	}
 	

@@ -34,20 +34,17 @@
 			authentication-success-handler-ref="loginSuccessHandler"
 			authentication-failure-handler-ref="loginFailureHandler" 
 		/>
-		
 		<sec:logout 
 			logout-url="/logout" 
 			invalidate-session="true" 
 			logout-success-url="/login?status=logout" 
 		/>
-		
 		<sec:session-management invalid-session-url="/loginFailure">
 			<sec:concurrency-control 
 				max-sessions="1" 
 				error-if-maximum-exceeded="false" 
 			/>
 		</sec:session-management>
-		
 	</sec:http>
 	
 	<!-- secured method -->

@@ -70,7 +70,8 @@ public class MSolController {
 	
 	@RequestMapping(value = "/mSS", method = RequestMethod.POST)
 	public void postMSS(@RequestBody(required=false) HashMap<String, Object> reqBodyMap, 
-			HttpServletRequest req, HttpServletResponse res, BindingResult bindingResult, Authentication auth) throws Exception {
+			HttpServletRequest req, HttpServletResponse res, BindingResult bindingResult, 
+			Authentication auth) throws Exception {
 
 		IListData listData = jsonDataHandlerImpl.convertToIListDataWithAuth(reqBodyMap, auth);
 		Map<?, ?> paramMap = listData.getParameterMap();

@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.rootech.msolver.common.dto.CustomUserDetails;
@@ -31,7 +32,7 @@ public class UserAuthProvider extends DaoAuthenticationProvider {
 
 		logger.debug("::::::: input username: {}  password: {}" , username, password);
 		
-		CustomUserDetails user = (CustomUserDetails) userAuthService.loadUserByUsername(username);
+		User user = (User) userAuthService.loadUserByUsername(username);
 
 		logger.debug("loadUserByUsername ::::::: 2");
 		

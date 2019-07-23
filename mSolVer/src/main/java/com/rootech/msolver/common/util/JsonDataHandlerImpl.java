@@ -14,7 +14,6 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -42,11 +41,8 @@ public class JsonDataHandlerImpl implements DataHandler {
 	public IListData convertToIListDataWithAuth(HashMap<String, Object> jObj, Authentication authentication)
 			throws Exception {
 
-		String sessionUserId = (String) authentication.getCredentials();
-		if(StringUtils.isEmpty(sessionUserId)) {
-			sessionUserId = (String) authentication.getPrincipal();
-		}
-
+		String sessionUserId = (String) authentication.getPrincipal();
+//		String sessionUserId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		log.debug(">>>>> >>>>> >>>>> convertToIListData sessionUserId : {}", sessionUserId);
 
 		Map<String, Object> paramMap = new HashMap<String, Object>();

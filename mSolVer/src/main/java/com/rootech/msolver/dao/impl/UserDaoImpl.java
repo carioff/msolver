@@ -1,5 +1,7 @@
 package com.rootech.msolver.dao.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSession;
@@ -25,6 +27,12 @@ public class UserDaoImpl implements UserDao {
 		return sqlSession.selectOne(NAMESPACE + ".selectUser", userVo);
 	}
 
+
+	@Override
+	public List<String> selectAuthority(UserVo userVo) {
+		return sqlSession.selectList(NAMESPACE + ".selectAuthority", userVo);
+	}
+	
 	@Override
 	public int insertUser(UserVo userVo) {
 		return sqlSession.insert(NAMESPACE + ".insertUser", userVo);
@@ -62,6 +70,5 @@ public class UserDaoImpl implements UserDao {
 			throw e;
 		}
 	}
-
 
 }

@@ -21,6 +21,16 @@
 		</where>
 	</select>
 	
+	<select id="selectAuthority" parameterType="userVo" resultType="String">
+		/*com.rootech.msolver.mapper.UserMapper.selectAuthority */
+		select authority from tb_ms_user_authority
+		<where>
+			<if test='null != userId and !"".equals(userId)'>
+				user_id = #{userId}
+			</if>
+		</where>
+	</select>
+	
 	<select id="selectLoginUser" parameterType="userVo" resultType="userVo">
 		/*com.rootech.msolver.mapper.UserMapper.selectLoginUser */
 		select a.user_id userId

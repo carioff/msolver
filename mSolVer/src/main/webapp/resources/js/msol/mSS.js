@@ -174,7 +174,7 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 					+ pushMsgObj.applyDate + "|" + pushMsgObj.applyWorker + "|" 
 					+ pushMsgObj.applyContents + "|" + pushMsgObj.exeCategory;
 					message = new Paho.MQTT.Message(pushMsg);
-					message.destinationName = "/test";
+					message.destinationName = "linux/test";
 					message.retained = true;
 					client.send(message);
 				}

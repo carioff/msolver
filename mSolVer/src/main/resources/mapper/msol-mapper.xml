@@ -189,10 +189,10 @@
 		    		AND REPLACE(#{applyDateTo}, '.', '')
 			    </if>
 			</where>
+			ORDER BY solSiteId
 			) AA
 		WHERE RNK BETWEEN (#{SOLVERSION_CUR_PAGE} - 1) * #{SOLVERSION_PER_PAGE} + 1 
 		AND #{SOLVERSION_CUR_PAGE} * #{SOLVERSION_PER_PAGE}
-		ORDER BY solVersion
 	</select>
 	
 	<select id="getSiteSolVerCnt" resultType="String">
