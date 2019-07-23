@@ -15,7 +15,6 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 	}
 	
 	$scope.getSiteSolVerList = function() {
-		$scope.page_cd.currentPage = 1; 
 		
 		var dataObj = {};
 		var paramDataObj = {};

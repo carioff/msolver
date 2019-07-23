@@ -22,7 +22,6 @@ app.controller('ctr_mSiteSolVer', function($scope, $http, $document, $window, $q
 	}
 	
 	$scope.getSiteList = function() {
-		$scope.page_siteId.currentPage = 1; 
 		
 		var dataObj = {};
 		var paramDataObj = {};
@@ -49,7 +48,6 @@ app.controller('ctr_mSiteSolVer', function($scope, $http, $document, $window, $q
 	};
 	
 	$scope.getSolVersionList = function() {
-		$scope.page_solVersion.currentPage = 1; 
 		
 		var dataObj = {};
 		var paramDataObj = {};
