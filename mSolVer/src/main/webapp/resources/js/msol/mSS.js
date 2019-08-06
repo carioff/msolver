@@ -86,10 +86,10 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 		
 		var metaData = {};
 		metaData.readonlyBool 		= false;
-		metaData.colHeaders 		= ["", "No.", "ID*", "Site ID*", "Solution Version*", 
+		metaData.colHeaders 		= ["", "No.", "ID*", "Site Name*", "Solution Version*", 
 										"Apply Date*", "Apply Worker", "Apply Contents", 
 										"RGST DATE", "RGST ID", "UPD DATE", "UPD ID"];
-		metaData.colWidths 			= [30, 30, 60, 180, 100, 
+		metaData.colWidths 			= [30, 30, 60, 180, 120, 
 		                   			   100, 200, 180,
 		                   			   120, 110, 120, 110];
 		metaData.columns 			= [
@@ -109,7 +109,24 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 		                 				    filter: false,
 		                 				    readOnly: false},
 		                 				    
-		                 			   {data: "applyDate", type: "textCenter", validator: /[0-9]/g},
+//		                 			   {data: "applyDate", type: "textCenter", validator: /[0-9]/g},
+		                 			   {data: "applyDate", type: "date", 
+		                 				       dateFormat    : "YYYYMMDD",
+		                 				       correctFormat: true,
+		                 				       defaultDate: "+1w",
+		                 				       datePickerConfig: {
+		                 				         // First day of the week (0: Sunday, 1: Monday, etc)
+		                 				         firstDay: 0,
+		                 				         changeMonth: true,
+		                 				         changeYear: true,
+//		                 				         showWeekNumber: true,
+		                 				         numberOfMonths: 1,
+//		                 				         disableDayFn: function(date) {
+//		                 				           // Disable Sunday and Saturday
+//		                 				           return date.getDay() === 0 || date.getDay() === 6;
+//		                 				         }
+		                 				    }
+		                 			   },
 		                 			   {data: "applyWorker", type: "text"}, 
 		                 			   {data: "applyContents", type:"text"},
 

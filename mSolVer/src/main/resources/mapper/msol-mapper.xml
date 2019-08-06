@@ -249,7 +249,7 @@
 		(
 			#{siteId}
 			, #{solVersion}
-			, #{applyDate}
+			, REPLACE(#{applyDate}, '.', '')
 			, #{applyContents}
 			, #{applyWorker} 
 			, NOW()
@@ -262,7 +262,7 @@
 	<update id="updateSiteSolVersion">
 		UPDATE 	tb_ms_sol_site
 		SET	    sol_version 	 = #{solVersion}    
-				, apply_date     = #{applyDate}     
+				, apply_date     = REPLACE(#{applyDate}, '.', '')     
 				, apply_contents = #{applyContents} 
 				, apply_worker   = #{applyWorker}   
 				, upd_date		 = NOW()
