@@ -89,19 +89,21 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 		metaData.colHeaders 		= ["", "No.", "ID*", "Site ID*", "Solution Version*", 
 										"Apply Date*", "Apply Worker", "Apply Contents", 
 										"RGST DATE", "RGST ID", "UPD DATE", "UPD ID"];
-		metaData.colWidths 			= [42, 40, 40, 180, 100, 
-		                   			   100, 120, 200,
+		metaData.colWidths 			= [30, 30, 60, 180, 100, 
+		                   			   100, 200, 180,
 		                   			   120, 110, 120, 110];
 		metaData.columns 			= [
 			 						   {data: "CHK", type: "checkbox", readOnly:false},
 			   						   {data: "RNK", type: "textCenter", readOnly: true},
 			   						   {data: "solSiteId", type: "textCenter", readOnly: true},
-				   					   {data: "siteId", type: "autocompleteCenter",
+//				   					   {data: "siteId", type: "autocompleteCenter",
+			   						   {data: "siteName", type: "autocomplete",
 		                 				    source: site_source,
 		                 				    strinct: false,
 		                 				    filter: false,
 		                 				    readOnly: false},
-	                 				   {data: "solVersion", type: "autocompleteCenter",
+//	                 				   {data: "solVersion", type: "autocompleteCenter",
+		                 			   {data: "solName", type: "autocompleteCenter",
 		                 				    source: sol_ver_source,
 		                 				    strinct: false,
 		                 				    filter: false,
@@ -153,7 +155,8 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 		var paramDataObj = {};
 		addDataObj(jQuery, paramDataObj, "SVC_ID", "saveSiteSolVer");
 		addDataObj(jQuery, dataObj, "PARAM_MAP", paramDataObj);
-		addDataObj(jQuery, dataObj, "ss_chg", hshelper_cd.getHsChgData());
+		addDataObj(jQuery, dataObj, "ss_chg", addSiteIdAndSolVersion(hshelper_cd.getHsChgData()));
+//		addDataObj(jQuery, dataObj, "ss_chg", hshelper_cd.getHsChgData());
 		
 		if(lengthCheck(dataObj.ss_chg, {applyDate: 8, applyWorker: 25, applyContents: 25}, 
 											["Apply Date", "Apply Worker", "Apply Contents"])) return;
@@ -270,7 +273,38 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 		
 		commonHttpPostSender($http, ctrUrl, dataObj, afterSuccessFunc);
 	}
-	
+	/**
+	 * <ul>
+	 * <li>2019.08.06</li>
+	 * <li>cskim</li>
+	 * <li>function name: addSiteidAndSolVersion</li>
+	 * <li>function description: gridData에 콤보박스에 받아온 key값이 SiteId, SolVersion를 추가시킨다. </li>
+	 * </ul>
+	 * 
+	 * @param gridData
+	 * @return: retGridData 
+	 */
+	function addSiteIdAndSolVersion(gridData) {
+		const retGridData = gridData;
+		const combSite = $scope.siteId; 
+		const combSolVer = $scope.solVersion; 
+
+		for (var i = 0; i < combSite.length; i++) {
+			if(combSite[i].siteName == retGridData[0].siteName) {
+				retGridData[0].siteId = combSite[i].siteId;
+				break;
+			}
+		}
+		
+		for (var i = 0; i < combSolVer.length; i++) {
+			if(combSolVer[i].solName == retGridData[0].solName) {
+				retGridData[0].solVersion = combSolVer[i].solVersion;
+				break;
+			}
+		}
+
+		return retGridData;
+	};
 	/**
 	 * <ul>
 	 * <li>2016.09.29</li>
@@ -291,10 +325,12 @@ app.controller('ctr_mSS', function($scope, $http, $document, $window, $q) {
 		$scope.solVersion = returnData.solVersionForComb;
 		
 		for (var i = 0; i < returnData.siteForComb.length; i++) {
-			siteArr.push(returnData.siteForComb[i].siteId);
+//			siteArr.push(returnData.siteForComb[i].siteId);
+			siteArr.push(returnData.siteForComb[i].siteName);
 		}
 		for (var i = 0; i < returnData.solVersionForComb.length; i++) {
-			solVersionArr.push(returnData.solVersionForComb[i].solVersion);
+//			solVersionArr.push(returnData.solVersionForComb[i].solVersion);
+			solVersionArr.push(returnData.solVersionForComb[i].solName);
 		}
 		
 		setCdGrid(siteArr, solVersionArr);

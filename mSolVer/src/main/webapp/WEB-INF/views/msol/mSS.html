@@ -19,14 +19,14 @@
 						<span>Site Name</span> 
 						<select ng-model="selectedCmbSite" class="btn form-air">
 							<option value="">Site Name</option>
-							<option ng-repeat="item in siteId" value="{{item.siteId}}">{{item.siteId}}</option>
+							<option ng-repeat="item in siteId" value="{{item.siteId}}">{{item.siteName}}</option>
 						</select>
 					</div>
 					<div class="col-md-2">
 						<span>Solution Version</span> 
 						<select ng-model="selectedCmbSolVer" class="btn form-air">
 							<option value="">Solution Version</option>
-							<option ng-repeat="item in solVersion" value="{{item.solVersion}}">{{item.solVersion}}</option>
+							<option ng-repeat="item in solVersion" value="{{item.solVersion}}">{{item.solName}}</option>
 						</select>
 					</div>
 					<div class="col-md-1">

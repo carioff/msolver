@@ -28,7 +28,7 @@
 	
 	<select id="getSiteForComb" resultType="java.util.HashMap">
 		select site_id siteId
-<!-- 			   , site_name siteName -->
+			   , site_name siteName
 <!-- 		select CONCAT(site_id,':',site_name) siteId -->
 		from tb_ms_site
 		ORDER BY siteId 
@@ -103,7 +103,7 @@
 	
 	<select id="getSolVersionForComb" resultType="java.util.HashMap">
 		select sol_version solVersion
-<!-- 			   ,sol_name solName -->
+			   ,sol_name solName
 		from tb_ms_sol_version 
 		ORDER BY solVersion
 	</select>
@@ -160,7 +160,9 @@
 			(
 			select a.sol_site_id solSiteId
 					, a.site_id siteId
+					, c.site_name siteName
 					, a.sol_version solVersion
+					, d.sol_name solName
 					, a.apply_date applyDate
 					, a.apply_contents applyContents
 					, a.apply_worker applyWorker
@@ -169,10 +171,12 @@
 					, DATE_FORMAT(a.upd_date, '%Y.%m.%d %H:%i') updDate
 					, a.upd_id updId
 					,  ( @rank := @rank + 1 ) AS RNK
-			from tb_ms_sol_site a, ( SELECT @rank := 0 ) b
+			from tb_ms_sol_site a, ( SELECT @rank := 0 ) b, tb_ms_site c, tb_ms_sol_version d 
 			<where>
+				a.site_id = c.site_id
+				AND a.sol_version = d.sol_version
 				<if test="solVersion != null and solVersion !=''">
-					a.sol_version = #{solVersion}
+					AND a.sol_version = #{solVersion}
 				</if>
 				<if test="siteId != null and siteId !=''">
 					AND a.site_id = #{siteId}
